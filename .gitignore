@@ -92,3 +92,8 @@ fastlane/test_output
 iOSInjectionProject/
 
 
+Output/
+
+# Bundler
+.bundle/
+vendor/
