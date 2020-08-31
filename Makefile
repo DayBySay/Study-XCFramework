@@ -1,7 +1,6 @@
 PROJECT_DIR:=.
 CONFIGURATION?=Release
 OUTPUT_DIR:=${PROJECT_DIR}/Output
-DERIVED_DIR:=${OUTPUT_DIR}/${CONFIGURATION}-derived
 ARCHIVE_DIR:=${OUTPUT_DIR}/${CONFIGURATION}-archive
 XCFRAMEWORK_DIR:=${OUTPUT_DIR}/${CONFIGURATION}-xcframework
 ARCHIVE_FILE_IOS:=${ARCHIVE_DIR}/ios.xcarchive
@@ -20,7 +19,6 @@ prepare-build:
 	rm -rf ${OUTPUT_DIR}
 
 archive-ios-device:
-	mkdir -p ${DERIVED_DIR}
 	set -o pipefail \
 		&& xcodebuild archive \
 		-project ${PROJECT_NAME}.xcodeproj \
@@ -28,13 +26,11 @@ archive-ios-device:
 		-configuration ${CONFIGURATION} \
 		-destination="iOS" \
 		-archivePath ${ARCHIVE_FILE_IOS} \
-		-derivedDataPath ${DERIVED_DIR} \
 		-sdk iphoneos \
 		SKIP_INSTALL=NO BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
 		| bundle exec xcpretty
 
 archive-ios-simulator:
-	mkdir -p ${ARCHIVE_DIR}
 	set -o pipefail \
 		&& xcodebuild archive \
 		-project ${PROJECT_NAME}.xcodeproj \
@@ -42,13 +38,11 @@ archive-ios-simulator:
 		-configuration ${CONFIGURATION} \
 		-destination="iOS Simulator" \
 		-archivePath ${ARCHIVE_FILE_IOS_SIMULATOR} \
-		-derivedDataPath ${DERIVED_DIR} \
 		-sdk iphonesimulator \
 		SKIP_INSTALL=NO BUILD_LIBRARY_FOR_DISTRIBUTION=YES \
 		| bundle exec xcpretty
 
 build-xcframework:
-	mkdir -p ${XCFRAMEWORK_DIR}
 	set -o pipefail \
 		&& xcodebuild \
 		-create-xcframework \
