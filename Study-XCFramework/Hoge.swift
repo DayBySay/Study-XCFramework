@@ -8,8 +8,10 @@
 
 import Foundation
 
-struct Hoge {
-    public func dump() -> String {
-        return "fuga"
+public struct Hoge {
+    public func dump() {
+        print("hoge")
     }
+    
+    public init() {}
 }
