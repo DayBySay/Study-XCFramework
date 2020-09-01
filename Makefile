@@ -12,6 +12,7 @@ PHONY=install clean
 
 install:
 	bundle install --path=vendor/bundle
+	make build
 
 build: prepare-build archive-ios-device archive-ios-simulator build-xcframework
 
